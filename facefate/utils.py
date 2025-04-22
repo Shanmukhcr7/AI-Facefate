@@ -1,47 +1,32 @@
 import google.generativeai as genai
 from PIL import Image
 import io
-import re
 
-# Configure Gemini
-genai.configure(api_key="AIzaSyBNcuvyE3rT0KyXRYZvx5M6tMSQv4IMBdU")
+genai.configure(api_key="AIzaSyC0lY3dWDTRsi-lrf4vhS79VcYsAgii3Zw")  # replace with env var in production
 
-# Initialize the model
 model = genai.GenerativeModel('gemini-2.0-flash')
 
 def generate_responses(name, img_bytes):
-    # Open image from bytes
     image = Image.open(io.BytesIO(img_bytes))
 
-    # Create a single prompt for all responses
     prompt = f"""
-    You are a hilarious AI with mystical and judging powers.
+    Here's an image of {name}.
+    
+    1. As a funny beauty pageant judge, rate {name}'s fabulous face from 1 (sassy disaster) to 10 (divine beauty). Only give a number.
 
-    Here's what you must do for {name}, based on the image provided:
-    1. Rate their fabulous face on a scale of 1 (sassy disaster) to 10 (divine beauty). Just say the number.
-    2. Roast them like a stand-up comedian. Keep it funny and 3-4 lines only.
-    3. Tell them their funny fate for today (2 lines only).
-    4. Guess their age. Just a number.
+    2. Roast {name} like a stand-up comedian in 3-4 lines.
 
-    Clearly label each section like this:
-    Ugly Score: <number>
-    Roast: <text>
-    Fortune: <text>
-    Age Guess: <number>
+    3. As a fortune teller, tell {name} their funny fate in 2 lines.
+
+    4. Guess {name}'s age (just give a number).
     """
 
     response = model.generate_content([prompt, image])
-    text = response.text.strip()
+    output = response.text.strip().split("\n")
 
-    # Extract each part using regex
-    ugly_score = re.search(r"Ugly Score:\s*(.*)", text)
-    roast = re.search(r"Roast:\s*(.*?)(?=Fortune:)", text, re.DOTALL)
-    fortune = re.search(r"Fortune:\s*(.*?)(?=Age Guess:)", text, re.DOTALL)
-    age_guess = re.search(r"Age Guess:\s*(.*)", text)
+    ugly_score = output[0].strip()
+    roast = "\n".join(output[1:4]).strip()
+    fortune = output[4].strip()
+    age_guess = output[-1].strip()
 
-    return (
-        ugly_score.group(1).strip() if ugly_score else "N/A",
-        roast.group(1).strip() if roast else "N/A",
-        fortune.group(1).strip() if fortune else "N/A",
-        age_guess.group(1).strip() if age_guess else "N/A"
-    )
+    return ugly_score, roast, fortune, age_guess
