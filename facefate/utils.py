@@ -1,8 +1,9 @@
 import google.generativeai as genai
 from PIL import Image
 import io
+import re
 
-# Replace this with your actual Gemini API key
+# Configure Gemini
 genai.configure(api_key="AIzaSyBNcuvyE3rT0KyXRYZvx5M6tMSQv4IMBdU")
 
 # Initialize the model
@@ -12,32 +13,35 @@ def generate_responses(name, img_bytes):
     # Open image from bytes
     image = Image.open(io.BytesIO(img_bytes))
 
-    # Create a response from the model: Ugly face rating
-    # Pass the name and the image bytes in the prompt
-    resp1 = model.generate_content([
-        f"As a funny beauty pageant judge, rate {name}'s fabulous face on a scale of 1 (sassy disaster) to 10 (divine beauty). Make it comedic! Only give a number", 
-        image
-    ])
-    ugly_score = resp1.text.strip()
+    # Create a single prompt for all responses
+    prompt = f"""
+    You are a hilarious AI with mystical and judging powers.
 
-    # Create a response from the model: Funny roast
-    resp2 = model.generate_content([
-        f"Roast this person like a stand-up comedian. Name: {name}. Keep it hilarious and make it just 3 to 4 lines.", 
-        image
-    ])
-    roast = resp2.text.strip()
+    Here's what you must do for {name}, based on the image provided:
+    1. Rate their fabulous face on a scale of 1 (sassy disaster) to 10 (divine beauty). Just say the number.
+    2. Roast them like a stand-up comedian. Keep it funny and 3-4 lines only.
+    3. Tell them their funny fate for today (2 lines only).
+    4. Guess their age. Just a number.
 
-    # Create a response from the model: Fortune telling
-    resp3 = model.generate_content([
-        f"As a fortune teller, tell {name} their funny fate today in just 2 lines."
-    ])
-    fortune = resp3.text.strip()
+    Clearly label each section like this:
+    Ugly Score: <number>
+    Roast: <text>
+    Fortune: <text>
+    Age Guess: <number>
+    """
 
-    # Create a response from the model: Age guessing
-    resp4 = model.generate_content([
-        f"Guess the age of {name} based on the image, just give a number.", 
-        image
-    ])
-    age_guess = resp4.text.strip()
+    response = model.generate_content([prompt, image])
+    text = response.text.strip()
 
-    return ugly_score, roast, fortune, age_guess
+    # Extract each part using regex
+    ugly_score = re.search(r"Ugly Score:\s*(.*)", text)
+    roast = re.search(r"Roast:\s*(.*?)(?=Fortune:)", text, re.DOTALL)
+    fortune = re.search(r"Fortune:\s*(.*?)(?=Age Guess:)", text, re.DOTALL)
+    age_guess = re.search(r"Age Guess:\s*(.*)", text)
+
+    return (
+        ugly_score.group(1).strip() if ugly_score else "N/A",
+        roast.group(1).strip() if roast else "N/A",
+        fortune.group(1).strip() if fortune else "N/A",
+        age_guess.group(1).strip() if age_guess else "N/A"
+    )
