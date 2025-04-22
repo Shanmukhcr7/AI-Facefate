@@ -2,46 +2,37 @@ import google.generativeai as genai
 from PIL import Image
 import io
 
-# Configure Gemini API key
-genai.configure(api_key="AIzaSyC0lY3dWDTRsi-lrf4vhS79VcYsAgii3Zw")  # Replace with environment variable for production
-
-# Load Gemini model
+# Configure Gemini
+genai.configure(api_key="AIzaSyC0lY3dWDTRsi-lrf4vhS79VcYsAgii3Zw")  # Replace with your actual key
 model = genai.GenerativeModel('gemini-2.0-flash')
 
 def generate_responses(name, img_bytes):
-    image = Image.open(io.BytesIO(img_bytes))
+    # Open and resize image
+    image = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+    image.thumbnail((512, 512))  # Resize image for speed
 
-    prompt = f"""
-    This is {name}. Based on their image:
+    # Prompt 1: Ugly face rating (only a number)
+    resp1 = model.generate_content([
+        f"Rate {name}'s beauty from 1 (worst) to 10 (best). Be funny but only return a number, no explanation.", image
+    ])
+    ugly_score = resp1.text.strip()
 
-    1. Rate their face from 1 to 10 (just give the number, no extra text).
-    2. Roast them like a stand-up comedian in just 2 or 3 lines.
-    3. As a funny fortune teller, tell them their fate in 2 or 3 lines.
-    4. Guess their age (just a number only).
+    # Prompt 2: Roast (2-3 lines)
+    resp2 = model.generate_content([
+        f"Roast {name} like a stand-up comedian in 2-3 lines. Make it funny!", image
+    ])
+    roast = resp2.text.strip()
 
-    Be brief, funny, and to the point.
-    """
+    # Prompt 3: Funny fate (2-3 lines)
+    resp3 = model.generate_content([
+        f"As a fortune teller, tell {name}'s funny fate in 2-3 lines."
+    ])
+    fortune = resp3.text.strip()
 
-    response = model.generate_content([prompt, image])
-    output = response.text.strip().split("\n")
-
-    # Extract responses
-    ugly_score = output[0].strip()
-    roast_lines = []
-    fate_lines = []
-    age_guess = ""
-
-    # Classify the lines into roast/fate/age
-    for line in output[1:]:
-        line = line.strip()
-        if line.isdigit() and not age_guess:
-            age_guess = line
-        elif len(roast_lines) < 3:
-            roast_lines.append(line)
-        elif len(fate_lines) < 3:
-            fate_lines.append(line)
-
-    roast = "\n".join(roast_lines).strip()
-    fortune = "\n".join(fate_lines).strip()
+    # Prompt 4: Age guessing (just number)
+    resp4 = model.generate_content([
+        f"Guess the age of {name} from the image. Return only a number.", image
+    ])
+    age_guess = resp4.text.strip()
 
     return ugly_score, roast, fortune, age_guess
