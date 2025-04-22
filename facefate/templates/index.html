@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceFate: Your Funny Fortune Awaits!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9dff, #ff3db8);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 50px;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+        }
+
+        section#image-upload {
+            padding: 20px;
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        section#image-upload input[type="file"],
+        section#image-upload input[type="text"],
+        section#image-upload button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            color: black;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        section#image-upload button {
+            background-color: #ff3db8;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        section#image-upload button:hover {
+            background-color: #ff1493;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            margin-top: 30px;
+        }
+
+        footer .social-media {
+            margin: 10px 0;
+            
+        }
+
+        footer .social-icon {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        footer .social-icon:hover {
+            color: #ff1493;
+        }
+
+        footer .small-text {
+            font-size: 12px;
+            color: white;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            section#image-upload {
+                padding: 15px;
+            }
+
+            section#image-upload input[type="text"] {
+                font-size: 14px;
+            }
+
+            section#image-upload button {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 22px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            section#image-upload {
+                padding: 10px;
+            }
+
+            section#image-upload input[type="file"],
+            section#image-upload input[type="text"],
+            section#image-upload button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to FaceFate!</h1>
+        <p>Upload a photo and let the fun begin! Get your Ugly Score, Roast, Fortune, and Age Guess, all served with a side of laughter!</p>
+    </header>
+    
+    <section id="image-upload">
+        <h2>Upload Your Hilarious Face</h2>
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" id="file-upload" required>
+            <input type="text" name="name" placeholder="Enter Your Name" required>
+            <button type="submit" class="cta-button">Get Your Fate!</button>
+        </form>
+    </section>
+    
+    <footer>
+        <p>Follow us on social media for more fun & updates!</p>
+        <div class="social-media">
+            <a href="#" class="social-icon">Instagram</a>
+            <a href="#" class="social-icon">Twitter</a>
+        </div>
+        <p class="small-text">Made with ❤️ by FaceFate Inc. | “Fate is funny, but we’re funnier!”</p>
+    </footer>
+</body>
+</html>

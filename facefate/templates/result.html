@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceFate Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9dff, #ff3db8);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styling */
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Result section */
+        .result-section {
+            background-color:pink;
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .cta-button {
+            background-color: #ff3db8;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background-color: white;
+        }
+
+        /* Footer section */
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 30px;
+        }
+
+        footer a {
+            color: #ff3db8;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ff1493;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff3db8;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid #ff3db8;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #ff3db8;
+            color: white;
+        }
+
+        /* Animations */
+        .cta-button {
+            animation: bounce 1s ease infinite;
+            color: white;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .result-section {
+                padding: 15px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            .back-link {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🧙‍♀️ Fate Results for {{ name }}</h1>
+
+    <div class="result-section">
+        <h2>Your Ugly Score: {{ ugly_score }}</h2>
+        <p>Don't worry, the roast is just for fun. Here's your roast: {{ roast }}.</p>
+        <p>Your fortune: {{ fortune }}.</p>
+        <p>Age Guess: {{ age_guess }} years old.</p>
+        <a href="/" class="back-link">Back to Upload</a>
+    </div>
+
+    <footer>
+        <p>Follow us on social media for more fun & updates!</p>
+        <a href="#" class="social-icon">Instagram</a> |
+        <a href="#" class="social-icon">Twitter</a>
+    </footer>
+
+</body>
+</html>
