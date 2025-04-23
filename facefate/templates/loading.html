@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Processing...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -13,10 +15,22 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
+            padding: 20px;
             text-align: center;
         }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
         .spinner {
-            margin-top: 20px;
             border: 6px solid #fff;
             border-top: 6px solid #ff3db8;
             border-radius: 50%;
@@ -24,9 +38,26 @@
             height: 60px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border-width: 4px;
+            }
         }
     </style>
 </head>
@@ -36,9 +67,9 @@
     <div class="spinner"></div>
 
     <script>
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.href = "/result";
-        }, 15000);  // 15 seconds
+        }, 15000);  // Wait 15 seconds
     </script>
 </body>
 </html>
