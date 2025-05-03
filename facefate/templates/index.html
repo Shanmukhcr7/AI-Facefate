@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload your photo to FaceFate and get funny results: Ugly Score, Roast, Fortune, and Age Guess!">
     <title>FaceFate: Your Funny Fortune Awaits!</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
@@ -42,6 +43,13 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
+        section#image-upload h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff3db8;
+        }
+
         section#image-upload input[type="file"],
         section#image-upload input[type="text"],
         section#image-upload button {
@@ -49,7 +57,6 @@
             padding: 15px;
             margin: 10px 0;
             border-radius: 12px;
-            color: black;
             border: 1px solid #ddd;
             font-size: 16px;
             box-sizing: border-box;
@@ -73,9 +80,8 @@
             margin-top: 30px;
         }
 
-        footer .social-media {
+        footer nav.social-media {
             margin: 10px 0;
-            
         }
 
         footer .social-icon {
@@ -90,7 +96,6 @@
 
         footer .small-text {
             font-size: 12px;
-            color: white;
         }
 
         /* Mobile Responsiveness */
@@ -103,10 +108,7 @@
                 padding: 15px;
             }
 
-            section#image-upload input[type="text"] {
-                font-size: 14px;
-            }
-
+            section#image-upload input[type="text"],
             section#image-upload button {
                 font-size: 14px;
             }
@@ -125,8 +127,7 @@
                 padding: 10px;
             }
 
-            section#image-upload input[type="file"],
-            section#image-upload input[type="text"],
+            section#image-upload input,
             section#image-upload button {
                 padding: 12px;
                 font-size: 14px;
@@ -143,18 +144,20 @@
     <section id="image-upload">
         <h2>Upload Your Hilarious Face</h2>
         <form action="/" method="POST" enctype="multipart/form-data">
+            <label for="file-upload" hidden>Choose an image</label>
             <input type="file" name="image" accept="image/*" id="file-upload" required>
-            <input type="text" name="name" placeholder="Enter Your Name" required>
+            <label for="name" hidden>Your Name</label>
+            <input type="text" name="name" id="name" placeholder="Enter Your Name" required>
             <button type="submit" class="cta-button">Get Your Fate!</button>
         </form>
     </section>
     
     <footer>
         <p>Follow us on social media for more fun & updates!</p>
-        <div class="social-media">
-            <a href="#" class="social-icon">Instagram</a>
-            <a href="#" class="social-icon">Twitter</a>
-        </div>
+        <nav class="social-media">
+            <a href="#" class="social-icon" aria-label="Instagram">Instagram</a>
+            <a href="#" class="social-icon" aria-label="Twitter">Twitter</a>
+        </nav>
         <p class="small-text">Made with ❤️ by FaceFate Inc. | “Fate is funny, but we’re funnier!”</p>
     </footer>
 </body>
